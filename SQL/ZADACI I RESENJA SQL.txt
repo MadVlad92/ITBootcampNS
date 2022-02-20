@@ -1,0 +1,61 @@
+-   CREATE TABLE ocene (
+        id_ocene int NOT NULL PRIMARY KEY,
+	cena int NOT NULL,
+	usluga int,
+	kvalitet int,
+	id_narudzbine int );
+
+
+ -INSERT INTO ocene
+values ('2','5','4','5','2');
+
+INSERT INTO ocene
+values ('3','2','1','4','3')
+
+INSERT INTO ocene
+values ('4','1','1','1','4')
+
+1  prikazati datum, id_korisnik i ukupnu cenu iz narudzbine koja ima sve ocene 5
+
+SELECT narudzbina.datum, narudzbina.id_korisnik, narudzbina.ukupna_cena
+FROM narudzbina
+JOIN ocene ON narudzbina.id_narudzbina = ocene.id_narudzbina
+WHERE cena=5 AND usluga=5 AND kvalitet=5 ;
+
+
+2 prikazati ime korisnika koji je dao sve 5 za ocene za narudzbinu
+
+SELECT korisnik.id_korisnik, korisnik.korisnicko_ime, ocene.cena, ocene.usluga, ocene.kvalitet
+FROM ((korisnik
+JOIN narudzbina ON korisnik.id_korisnik = narudzbina.id_narudzbina)
+JOIN ocene ON narudzbina.id_narudzbina = ocene.id_narudzbina)
+WHERE cena=5 AND usluga=5 AND kvalitet=5;
+
+3 prikazati prosecnu ocenu za uslugu za svakog korisnika (grupisati po korisnicima)
+
+SELECT AVG (ocene.usluga), korisnik.korisnicko_ime, korisnik.id_korisnik
+FROM korisnik 
+JOIN ocene ON korisnik.id_korisnik = ocene.id_ocene
+GROUP BY korisnik.id_korisnik;
+
+4.prikazati prosecnu ocenu za uslugu od ocena koje je dao Pera
+
+SELECT AVG(ocene.usluga), korisnik.id_korisnik, korisnik.korisnicko_ime
+FROM korisnik
+JOIN ocene ON korisnik.id_korisnik = ocene.id_ocene
+WHERE korisnicko_ime iLIKE 'Pera'
+GROUP BY korisnik.id_korisnik
+
+6 prikazati koliko je narudzbina imao svaki restoran (prikazati samo id_restorana i broj narudzbina za taj restoran)
+
+SELECT COUNT (narudzbina.id_narudzbina), narudzbina.id_restorana
+FROM narudzbina
+JOIN restoran_objekat ON narudzbina.id_restorana = restoran_objekat.id_restorana
+GROUP BY narudzbina.id_restorana
+
+7 prikazati adrese restorana i sumu koliko je koji restoran zaradio u opadajucem poretku
+
+
+
+
+
